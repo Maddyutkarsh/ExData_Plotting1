@@ -160,17 +160,18 @@ The four plots that you will need to construct are shown below.
 
 >dateTime <- strptime(paste(subSet$Date, subSet$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
 par(mfrow=c(2,2))
-q<-as.numeric(as.character(subSet$Global_active_power))
+>q<-as.numeric(as.character(subSet$Global_active_power))
 > plot(dateTime,q,type="l",ylab="Global Active Power",xlab = "")
-q<-as.numeric(as.character(subSet$Global_active_power))
-plot(dateTime,q,type="l",ylab="Global Active Power",xlab = "")
-plot(dateTime,as.numeric(as.character(subSet$Voltage)),ylab="Voltage",xlab = "datetime",type = "l")
-plot(dateTime,as.numeric(as.character(subSet$Sub_metering1)),ylab="Energy sub metering",xlab="",type="l",col="black")
-lines(dateTime,as.numeric(as.character(subSet$Sub_metering2)),type="l",col="red")
-lines(dateTime,as.numeric(as.character(subSet$Sub_metering3)),col="blue",type="l")
-legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=1, lwd=2.5, col=c("black", "red", "blue"))
-plot(dateTime,as.numeric(as.character(subSet$Global_reactive_power)),xlab = "datetime",ylab = "Global_reactive_power",type = "l")
-
+>q<-as.numeric(as.character(subSet$Global_active_power))
+>plot(dateTime,q,type="l",ylab="Global Active Power",xlab = "")
+>plot(dateTime,as.numeric(as.character(subSet$Voltage)),ylab="Voltage",xlab = "datetime",type = "l")
+>plot(dateTime,as.numeric(as.character(subSet$Sub_metering1)),ylab="Energy sub metering",xlab="",type="l",col="black")
+>lines(dateTime,as.numeric(as.character(subSet$Sub_metering2)),type="l",col="red")
+>lines(dateTime,as.numeric(as.character(subSet$Sub_metering3)),col="blue",type="l")
+>legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=1, lwd=2.5, col=c("black", "red", "blue"))
+>plot(dateTime,as.numeric(as.character(subSet$Global_reactive_power)),xlab = "datetime",ylab = "Global_reactive_power",type = "l")
+>png("plot4.png",width=480,height = 480)
+>dev.off()
 
 
 
