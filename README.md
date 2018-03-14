@@ -58,6 +58,8 @@ functions.
 * Note that in this dataset missing values are coded as `?`.
 
 
+
+
 ## Making Plots
 
 Our overall goal here is simply to examine how household energy usage
@@ -94,21 +96,84 @@ The four plots that you will need to construct are shown below.
 
 ### Plot 1
 
+> fd<-read.table("household_power_consumption.txt",sep=";",skip = 1)
+> colnames(fd)<-c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering1","Sub_metering2","Sub_metering3")
+>library(dplyr)
+>subSet <- fd[fd$Date %in% c("1/2/2007","2/2/2007") ,]
+>p<-as.character(subSet$Global_active_power)
+> p<-as.numeric(p)
+> hist(p,main = "Global Active Power",xlab="Global Active Power(Kilowatts)")
+>dev.copy(png,file="plot1.png",height=480,width=480)
+> dev.off()
+
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
 
 
 ### Plot 2
 
+> fd<-read.table("household_power_consumption.txt",sep=";",skip = 1)
+> colnames(fd)<-c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering1","Sub_metering2","Sub_metering3")
+>library(dplyr)
+>subSet <- fd[fd$Date %in% c("1/2/2007","2/2/2007") ,]
+
+>subSet$date <- as.Date(subSet$date, format="%d %m %Y")
+>subSet$time <- strptime(subSet$time, format="%H:%M:%S")
+>subSet[1:1440,"time"] <- format(subSet[1:1440,"time"],"2007-02-01 %H:%M:%S")
+>subSet[1441:2880,"time"] <- format(subSet[1441:2880,"time"],"2007-02-02 %H:%M:%S")
+
+>#Use Basic plot function
+>plot(subSet$time,as.numeric(as.character(subSet$global_active_power)),xlab="",ylab="Global Active Power",type="l")
+
+>#Step.3:Saving the plot in a PNG File
+
+>dev.copy(png,file="plot1.png",width=480,height=480)
+>dev.off() 
+
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
 
 ### Plot 3
+> fd<-read.table("household_power_consumption.txt",sep=";",skip = 1)
+> colnames(fd)<-c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering1","Sub_metering2","Sub_metering3")
+>library(dplyr)
+>subSet <- fd[fd$Date %in% c("1/2/2007","2/2/2007") ,]
+
+>dateTime <- strptime(paste(subSet$Date, subSet$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
+>plot(dateTime,as.numeric(as.character(subSet$Sub_metering1)),ylab="Energy sub metering",xlab="",type="l",col="black")
+>lines(dateTime,as.numeric(as.character(subSet$Sub_metering2)),type="l",col="red")
+>lines(dateTime,as.numeric(as.character(subSet$Sub_metering3)),col="blue",type="l")
+>legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=1, lwd=2.5, col=c("black", "red", "blue"))
+>png("plot3.png",width=480,height = 480)
+>dev.off()
+
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
 
 
 ### Plot 4
+
+> fd<-read.table("household_power_consumption.txt",sep=";",skip = 1)
+> colnames(fd)<-c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering1","Sub_metering2","Sub_metering3")
+>library(dplyr)
+>subSet <- fd[fd$Date %in% c("1/2/2007","2/2/2007") ,]
+
+>dateTime <- strptime(paste(subSet$Date, subSet$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
+par(mfrow=c(2,2))
+q<-as.numeric(as.character(subSet$Global_active_power))
+> plot(dateTime,q,type="l",ylab="Global Active Power",xlab = "")
+q<-as.numeric(as.character(subSet$Global_active_power))
+plot(dateTime,q,type="l",ylab="Global Active Power",xlab = "")
+plot(dateTime,as.numeric(as.character(subSet$Voltage)),ylab="Voltage",xlab = "datetime",type = "l")
+plot(dateTime,as.numeric(as.character(subSet$Sub_metering1)),ylab="Energy sub metering",xlab="",type="l",col="black")
+lines(dateTime,as.numeric(as.character(subSet$Sub_metering2)),type="l",col="red")
+lines(dateTime,as.numeric(as.character(subSet$Sub_metering3)),col="blue",type="l")
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=1, lwd=2.5, col=c("black", "red", "blue"))
+plot(dateTime,as.numeric(as.character(subSet$Global_reactive_power)),xlab = "datetime",ylab = "Global_reactive_power",type = "l")
+
+
+
+
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
